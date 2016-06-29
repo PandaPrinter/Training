@@ -1,39 +1,36 @@
 public class Solution {
     public void nextPermutation(int[] nums) {
-        if (nums == null || nums.length < 2) {
-            return;
-        }
-        int p = 0;
-        for (int i = nums.length - 1; i >= 1; i--) {
+        int num = 0;
+        int j = 0;
+        for (int i = nums.length - 1; i > 0; i--) {
             if (nums[i - 1] < nums[i]) {
-                p = i - 1;
+                num = nums[i - 1];
+                j = i - 1;
+                break;
+            }
+            if (i == 1) {
+                Arrays.sort(nums);
+                return;
+            }
+        }
+        for (int i = nums.length - 1; i > 0; i--) {
+            if (nums[i] > num) {
+                int temp = num;
+                nums[j] = nums[i];
+                nums[i] = temp;
                 break;
             }
         }
-        int q = 0;
-        for (int i = nums.length - 1; i > p; i--) {
-            if (nums[i] > nums[p]) {
-                q = i;
-                break;
-            }
-        }
-        if (p == 0 && q == 0) {
-            reverseArr(nums, 0, nums.length - 1);
-        }
-        else {
-            int temp = nums[p];
-            nums[p] = nums[q];
-            nums[q] = temp;
-            if (p < nums.length - 1) {
-                reverseArr(nums, p + 1, nums.length - 1);
-            }
-        }
+        reverseSort(j + 1, nums.length - 1, nums);
     }
-    private void reverseArr(int[] nums,int left, int right) {
-        for (int i = left; i <= (right + left) / 2; i++) {
-            int temp = nums[i];
-            nums[i] = nums[left + right - i];
-            nums[left + right - i] = temp;
+    
+    private void reverseSort(int start, int end, int[] nums) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
         }
     }
     

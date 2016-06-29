@@ -6,11 +6,11 @@ public class Solution {
         int start = 0, end = nums.length - 1;
         while (start <= end) {
             int mid = start + (end - start) / 2;
-            if (target == nums[mid]) {
+            if (nums[mid] == target) {
                 return mid;
             }
-            if (nums[start] <= nums[mid]) {
-                if (target >= nums[start] && target < nums[mid]) {
+            else if (nums[start] <= nums[mid]) {
+                if (target < nums[mid] && target >= nums[start]) {
                     end = mid - 1;
                 }
                 else {
