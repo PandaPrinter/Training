@@ -1,31 +1,48 @@
 public class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int[] result = new int[] {nums.length, -1};
-        searchRange(0, nums.length - 1, nums, target, result);
-        if (result[0] > result[1]) {
-            result[0] = -1;
-        }
-        return result;
+        int[] res = new int[2];
+        res[0] = binarySearch1(nums, target, 0, nums.length - 1);
+        res[1] = binarySearch2(nums, target, 0, nums.length - 1);
+        return res;
     }
-    private void searchRange(int start, int end, int[] nums, int target, int[] result) {
-        if (start > end) return;
-        int middle = (start + end) / 2;
-        if (nums[middle] == target) {
-            if (middle < result[0]) {
-                result[0] = middle;
-                this.searchRange(start, middle - 1, nums, target, result);
+    private int binarySearch1(int[] nums, int target, int start, int end) {
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                if (start == end || start == mid) return mid;
+                else {
+                    end = mid;
+                }
             }
-            if (middle > result[1]) {
-                result[1] = middle;
-                this.searchRange(middle + 1, end, nums, target, result);
+            else if (nums[mid] > target) {
+                end = mid - 1;
+            }
+            else {
+                start = mid + 1;
             }
         }
-        else if (nums[middle] > target) {
-            this.searchRange(start, middle - 1, nums, target, result);
+        return -1;
+    }
+    private int binarySearch2(int[] nums, int target, int start, int end) {
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                if (start == end) return mid;
+                else if (start == mid) {
+                    return nums[end] == target ? end : mid;
+                }
+                else {
+                    start = mid;
+                }
+            }
+            else if (nums[mid] > target) {
+                end = mid - 1;
+            }
+            else {
+                start = mid + 1;
+            }
         }
-        else {
-            this.searchRange(middle + 1, end, nums, target, result);
-        }
+        return -1;
     }
     
 }
