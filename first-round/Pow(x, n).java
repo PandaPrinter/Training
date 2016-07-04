@@ -1,28 +1,23 @@
 public class Solution {
-    /*
-     // method 1
-     public double myPow(double x, int n) {
-     if(n == 0)
-     return 1;
-     if(n<0){
-     n = -n;
-     x = 1/x;
-     }
-     return (n%2 == 0) ? myPow(x*x, n/2) : x*myPow(x*x, n/2);
-     }
-     */
-    
-    // method 2
-    public double myPow(double x, int n) {
-        long absN = Math.abs((long)n);
-        double ans = 1;
-        while (absN > 0) {
-            if ((absN & 1) == 1) {
-                ans *= x;
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> res = new ArrayList<>();
+        HashMap<String, List<String>> map = new HashMap<>();
+        for (String s : strs) {
+            char[] tempArr = s.toCharArray();
+            Arrays.sort(tempArr);
+            String val = String.valueOf(tempArr);
+            if (!map.containsKey(val)) {
+                List<String> list = new ArrayList<>();
+                list.add(s);
+                map.put(val, list);
             }
-            x *= x;
-            absN >>= 1;
+            else {
+                List<String> list = map.get(val);
+                list.add(s);
+                map.put(val, list);
+            }
         }
-        return n < 0 ? 1/ans : ans;
+        return new ArrayList<List<String>>(map.values());
     }
+    
 }
