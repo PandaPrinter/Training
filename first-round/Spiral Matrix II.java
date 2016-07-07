@@ -1,30 +1,35 @@
 public class Solution {
     public int[][] generateMatrix(int n) {
-        int[][] matrix = new int[n][n];
-        int rowBegin = 0, rowEnd = n - 1, colBegin = 0, colEnd = n - 1;
-        int value = 1;
-        while (rowBegin <= rowEnd) {
-            for (int i = colBegin; i <= colEnd; i++) {
-                matrix[rowBegin][i] = value++;
+        int rowStart = 0, rowEnd = n - 1, colStart = 0, colEnd = n - 1;
+        int[][] res = new int[n][n];
+        int num = 1;
+        while (num <= Math.pow(n, 2)) {
+            for (int i = colStart; i <= colEnd; i++) {
+                res[rowStart][i] = num;
+                num++;
             }
-            rowBegin++;
-            
-            for (int i = rowBegin; i <= rowEnd; i++) {
-                matrix[i][colEnd] = value++;
+            rowStart++;
+            for (int i = rowStart; i <= rowEnd; i++) {
+                res[i][colEnd] = num;
+                num++;
             }
             colEnd--;
-            
-            for (int i = colEnd; i >= colBegin; i--) {
-                matrix[rowEnd][i] = value++;
+            if (rowStart <= rowEnd) {
+                for (int i = colEnd; i >= colStart; i--) {
+                    res[rowEnd][i] = num;
+                    num++;
+                }
+                rowEnd--;
             }
-            rowEnd--;
-            
-            for (int i = rowEnd; i >= rowBegin; i--) {
-                matrix[i][colBegin] = value++;
+            if (colStart <= colEnd) {
+                for (int i = rowEnd; i >= rowStart; i--) {
+                    res[i][colStart] = num;
+                    num++;
+                }
+                colStart++;
             }
-            colBegin++;
         }
-        return matrix;
+        return res;
     }
     
 }
